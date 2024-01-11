@@ -14,3 +14,13 @@ most of these can be replaced by similar things but I based my personal setup on
 - at first you need to install the requirements above
 - next you need to source the config.fish file inside of your main fish config (by default `~/.config/fish/config.fish`)
   for this you need to add the line `source <this directory>/config.fish`
+- add the following lines to your `~/.gitconfig` file to configure delta correctly:
+  ```toml
+  [core]
+  	pager = delta
+  [delta]
+  	side-by-side = true
+  	line-numbers = false
+  	file-style = omit
+  	hunk-header-style = omit
+  ```
