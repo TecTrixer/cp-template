@@ -1,0 +1,6 @@
+target
+justfile
+Cargo.lock
+Cargo.toml
+*.in
+*.out
