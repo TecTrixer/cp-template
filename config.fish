@@ -44,3 +44,30 @@ function cp_new
         # TODO: also automatically start competitive companion server in the future
     end
 end
+
+# 
+function cp_eval_test
+    if test (count $argv) -eq 2
+    	echo "Testing task "(echo $argv[2] | string upper)
+    	echo ""
+    	for in_file in ./{$argv[2]}*.in
+    		echo (echo $in_file | string replace "./" "")":"
+    		set out_file (echo $in_file | string replace ".in" ".out")
+    		begin
+    			set -l IFS
+    			set res (bash -c "diff -U100 -u <(cat $in_file; echo "---"; cat $in_file | $argv[1]) <(cat $in_file; echo "---"; cat $out_file)")
+    		end
+    		if test $status -eq 0
+    			echo "~~~~~~"
+    			bash -c "pr -m -t <(cat $in_file; echo "---"; cat $in_file | $argv[1]) <(cat $in_file; echo "---"; cat $out_file)"
+    		else
+    			echo -n "~~~~~~"
+    			echo $res | delta
+    		end
+    		echo ""
+        end
+    else
+        echo "You need to specify the program binary path and the name of the test"
+	end
+end
+
