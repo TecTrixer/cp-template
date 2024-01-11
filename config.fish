@@ -1,5 +1,5 @@
 # Folder where this repo is:
-set CP_REPO "~/cp/cp-temp"
+set CP_REPO "~/cp/cp-template"
 
 # Abbreviation for running just
 abbr j just
