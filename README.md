@@ -24,3 +24,7 @@ most of these can be replaced by similar things but I based my personal setup on
   	file-style = omit
   	hunk-header-style = omit
   ```
+
+## Recommendations
+
+Since Rust binaries tend to be quite large, I like to run [kondo](https://github.com/tbillington/kondo) every once in a while. It removes all build artifacts in a really easy way. This way I can comfortably leave the contest directory on desk without worrying about all the contests taking up too much disk space.
