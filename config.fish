@@ -1,5 +1,5 @@
 # Folder where this repo is:
-set CP_REPO "~/cp/cp-template"
+set CP_REPO (realpath (dirname (status filename)))
 
 # Abbreviation for running just
 abbr j just
@@ -31,6 +31,7 @@ function cp_add_contest_files
     end
 end
 
+# This function creates a new contest and optionally adds files for the subtasks
 function cp_new
     if test (count $argv) -ge 1
         mkdir $argv[1]
@@ -45,7 +46,7 @@ function cp_new
     end
 end
 
-# 
+# this function evaluates a test and compares the output using delta
 function cp_eval_test
     if test (count $argv) -eq 2
     	echo "Testing task "(echo $argv[2] | string upper)
