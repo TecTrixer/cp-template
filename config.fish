@@ -26,7 +26,7 @@ function cp_add_contest_files
         set start_val (printf "%d" "'$argv[1]'")
         set end_val (printf "%d" "'$argv[2]'")
         for val in (seq $start_val $end_val)
-            cp_add_task (printf "\\$(printf '#03o')")
+            cp_add_task (printf "\\$(printf '%03o' $val)")
         end
     end
 end
