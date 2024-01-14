@@ -56,11 +56,11 @@ function cp_eval_test
     		set out_file (echo $in_file | string replace ".in" ".out")
     		begin
     			set -l IFS
-    			set res (bash -c "diff -U100 -u <(cat $in_file; echo "---"; cat $in_file | $argv[1]) <(cat $in_file; echo "---"; cat $out_file)")
+    			set res (bash -c "diff -U1000 -u <(cat $in_file; echo '---'; cat $in_file | $argv[1] | awk '{\$1=\$1};1') <(cat $in_file; echo '---'; cat $out_file)")
     		end
     		if test $status -eq 0
     			echo "~~~~~~"
-    			bash -c "pr -m -t <(cat $in_file; echo "---"; cat $in_file | $argv[1]) <(cat $in_file; echo "---"; cat $out_file)"
+    			bash -c "pr -m -t <(cat $in_file; echo '---'; cat $in_file | $argv[1] | awk '{\$1=\$1};1') <(cat $in_file; echo '---'; cat $out_file)"
     		else
     			echo -n "~~~~~~"
     			echo $res | delta
