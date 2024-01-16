@@ -42,7 +42,8 @@ function cp_new
     end
     if test (count $argv) -eq 3
         cp_add_contest_files $argv[2] $argv[3]
-        # TODO: also automatically start competitive companion server in the future
+        # also automatically start competitive companion server in the future
+        comp-helper &; bg
     end
 end
 
