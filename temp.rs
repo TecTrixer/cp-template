@@ -11,7 +11,7 @@ fn main() {
 
 #[rustfmt::skip]
 mod lib {
-#![allow(dead_code)]
+#![allow(dead_code, unused_imports)]
 pub use std::collections::{HashMap, HashSet};
 use std::{
 fmt::Display,
@@ -233,5 +233,32 @@ macro_rules! r {
         ),*)
     }
 }
+}
+#[macro_export]
+macro_rules! init {
+($val:expr, $($dims:expr);+) => {
+{
+    let mut temp_vec = Vec::new();
+    build_vec!(&mut temp_vec, $val, $($dims),+);
+    temp_vec
+}
+};
+}
+
+#[macro_export]
+macro_rules! build_vec {
+($vec:expr, $val:expr, $dim:expr) => {{
+    for _ in 0..$dim {
+        $vec.push($val);
+    }
+}};
+
+($vec:expr, $val:expr, $dim:expr, $($rest:expr),+) => {{
+    for _ in 0..$dim {
+        let mut sub_vec = Vec::new();
+        build_vec!(&mut sub_vec, $val, $($rest),+);
+        $vec.push(sub_vec);
+    }
+}};
 }
 }
