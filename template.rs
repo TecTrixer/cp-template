@@ -145,3 +145,23 @@ impl SegTree {
         res
     }
 }
+
+/// Generate all permutations in lexicographical order
+/// Return false if it is the last permutation
+/// C: O(n) amortized over all permutations, otherwise O(n) per single call
+fn next_permutation<T: Ord>(elems: &mut [T]) -> bool {
+    let la = match elems.windows(2).rposition(|w| w[0] < w[1]) {
+        Some(i) => i,
+        None => {
+            elems.reverse();
+            return false;
+        }
+    };
+
+    let swap = elems[la + 1..]
+        .binary_search_by(|n| T::cmp(&elems[la], n).then(std::cmp::Ordering::Less))
+        .unwrap_err();
+    elems.swap(la, la + swap);
+    elems[la + 1..].reverse();
+    true
+}
