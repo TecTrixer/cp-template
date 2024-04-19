@@ -165,3 +165,25 @@ fn next_permutation<T: Ord>(elems: &mut [T]) -> bool {
     elems[la + 1..].reverse();
     true
 }
+
+/// Fast exponentiation in modular arithmetic
+/// Computes x^n % m
+/// C: O(log(n))
+fn fast_mod_expo(mut x: U, mut n: U, m: U) -> U {
+    let mut res = 1;
+    while n > 0 {
+        if n % 2 == 1 {
+            res = (res * x) % m;
+        }
+        n >>= 1;
+        x = (x * x) % m;
+    }
+    res
+}
+
+/// Modular inverse, uses fast modular exponentiation and Fermat's little theorem
+/// Computes y such that (x * y) % m = 1 <=> y = x^-1 % m
+/// C: O(log(m))
+fn mod_inv(x: U, m: U) -> U {
+    fast_mod_expo(x, m - 2, m)
+}
