@@ -187,3 +187,26 @@ fn fast_mod_expo(mut x: U, mut n: U, m: U) -> U {
 fn mod_inv(x: U, m: U) -> U {
     fast_mod_expo(x, m - 2, m)
 }
+
+/// z-function, computes the longest matching string starting at the current position to the prefix
+/// C: O(n)
+pub fn z(s: &str) -> Vec<usize> {
+    let n = s.len();
+    let s = s.chars().collect::<Vec<_>>();
+    let mut z = vec![0; n];
+    let mut l = 0;
+    let mut r = 0;
+    for i in 1..n {
+        if i < r {
+            z[i] = std::cmp::min(r - i, z[i - l]);
+        }
+        while i + z[i] < n && s[z[i]] == s[i + z[i]] {
+            z[i] += 1;
+        }
+        if i + z[i] > r {
+            l = i;
+            r = i + z[i];
+        }
+    }
+    z
+}
