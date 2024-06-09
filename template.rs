@@ -189,10 +189,10 @@ fn mod_inv(x: U, m: U) -> U {
 }
 
 /// z-function, computes the longest matching string starting at the current position to the prefix
-/// C: O(n)
-pub fn z(s: &str) -> Vec<usize> {
+/// C: O(n), R: nothing
+fn z(s: &[char]) -> Vec<usize> {
     let n = s.len();
-    let s = s.chars().collect::<Vec<_>>();
+    let s = s.into_iter().collect::<Vec<_>>();
     let mut z = vec![0; n];
     let mut l = 0;
     let mut r = 0;
