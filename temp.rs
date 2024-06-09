@@ -3,10 +3,10 @@ use lib::*;
 fn main() {
     #[allow(unused_variables, unused_mut)]
     let mut io = Io::new();
-    // let t = r!(U);
-    // for _ in 0..t {
-
-    // }
+    let t = r!(U);
+    for _ in 0..t {
+        
+    }
 }
 
 #[rustfmt::skip]
@@ -164,6 +164,38 @@ pub fn nl(&mut self) {
 pub fn flush(&mut self) {
     unsafe { self.output.flush().unwrap_unchecked() }
 }
+}
+#[macro_export]
+macro_rules! debug {
+($($var:ident),*) => {
+if cfg!(feature="DEBUG"){
+    let io = unsafe {
+        IO.as_mut().unwrap_unchecked()
+    };
+    let mut out = String::new();
+    $(
+        out.push_str(&format!("{} = {:?}, ", stringify!($var), $var));
+    )*
+    out.truncate(out.len() - 2);
+    io.w(out);
+    io.nl();
+}
+};
+($msg:literal, $($var:ident),*) => {
+if cfg!(feature="DEBUG"){
+    let io = unsafe {
+        IO.as_mut().unwrap_unchecked()
+    };
+    let mut out = String::new();
+    out.push_str(&format!("{}: ", $msg));
+    $(
+        out.push_str(&format!("{} = {:?}, ", stringify!($var), $var));
+    )*
+    out.truncate(out.len() - 2);
+    io.w(out);
+    io.nl();
+}
+};
 }
 #[macro_export]
 macro_rules! wf {
