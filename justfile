@@ -10,25 +10,24 @@ alias tr := test-release
 
 export RUSTFLAGS := "-Awarnings"
 
-run BIN:
-	cargo run --bin {{BIN}}
 build BIN:
-	cargo build --bin {{BIN}}
-test BIN:
-	cargo build --bin {{BIN}}
+	@cargo build --bin {{BIN}}
+run BIN: (build BIN)
+	@./target/debug/{{BIN}}
+test BIN: (build BIN)
 	@fish -c "cp_eval_test ./target/debug/{{BIN}} {{BIN}}"
-run-debug BIN:
-	cargo run --bin {{BIN}} --features DEBUG
 build-debug BIN:
-	cargo build --bin {{BIN}} --features DEBUG
-test-debug BIN:
-	cargo build --bin {{BIN}} --features DEBUG
+	#!/usr/bin/env bash
+	RUSTFLAGS="{{RUSTFLAGS}} --cfg DEBUG"
+	cargo build --bin {{BIN}}
+run-debug BIN: (build-debug BIN)
+	@./target/debug/{{BIN}}
+test-debug BIN: (build-debug BIN)
 	@fish -c "cp_eval_test ./target/debug/{{BIN}} {{BIN}}"
-run-release BIN:
-	cargo run --release --bin {{BIN}}
 build-release BIN:
-	cargo build --release --bin {{BIN}}
-test-release BIN:
-	cargo build --release --bin {{BIN}}
+	@cargo build --release --bin {{BIN}}
+run-release BIN: (build-release BIN)
+	@./target/release/{{BIN}}
+test-release BIN: (build-release BIN)
 	@fish -c "cp_eval_test ./target/debug/{{BIN}} {{BIN}}"
 

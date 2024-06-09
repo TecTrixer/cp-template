@@ -168,7 +168,7 @@ pub fn flush(&mut self) {
 #[macro_export]
 macro_rules! debug {
 ($($var:ident),*) => {
-if cfg!(feature="DEBUG"){
+if cfg!(DEBUG){
     let io = unsafe {
         IO.as_mut().unwrap_unchecked()
     };
@@ -182,7 +182,7 @@ if cfg!(feature="DEBUG"){
 }
 };
 ($msg:literal, $($var:ident),*) => {
-if cfg!(feature="DEBUG"){
+if cfg!(DEBUG){
     let io = unsafe {
         IO.as_mut().unwrap_unchecked()
     };
