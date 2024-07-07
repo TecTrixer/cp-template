@@ -5,7 +5,6 @@ fn main() {
     let mut io = Io::new();
     let t = r!(U);
     for _ in 0..t {
-        
     }
 }
 
@@ -15,6 +14,7 @@ mod lib {
 pub use std::collections::{HashMap, HashSet};
 use std::{
 fmt::Display,
+hash::Hash,
 io::{
     stdin, stdout, BufRead, BufReader, BufWriter, Cursor, Error, ErrorKind, Read, Stdin,
     Stdout, Write,
@@ -26,6 +26,48 @@ pub type U = usize;
 pub type I = isize;
 pub type F = f64;
 pub type B = u8;
+pub trait Prefix<T> {
+fn prefix(self, initial: T, accumulator: fn(T, T) -> T) -> impl Iterator<Item = T>;
+}
+impl<T: Clone + Copy + 'static, I: Iterator<Item = T>> Prefix<T> for I {
+fn prefix(self, initial: T, accumulator: fn(T, T) -> T) -> impl Iterator<Item = T> {
+std::iter::once(initial.clone()).chain(self.scan(initial.clone(), move |state, x| {
+    *state = accumulator(*state, x);
+    Some(*state)
+}))
+}
+}
+pub trait Collect<T> {
+fn cv(self) -> Vec<T>;
+fn cset(self) -> HashSet<T>;
+}
+impl<T: Eq + Hash, I: Iterator<Item = T>> Collect<T> for I {
+fn cv(self) -> Vec<T> {
+self.collect()
+}
+fn cset(self) -> HashSet<T> {
+self.collect()
+}
+}
+pub trait VecStuff<T> {
+fn print(&self);
+fn prefix(&self, initial: T, accumulator: fn(T, T) -> T) -> impl Iterator<Item = T>;
+}
+impl<T: Display + Clone + Copy + 'static> VecStuff<T> for Vec<T> {
+fn print(&self) {
+let io = unsafe { IO.as_mut().unwrap_unchecked() };
+self.iter().enumerate().for_each(|(i, e)| {
+    if i != 0 {
+        io.w(' ');
+    }
+    io.w(e);
+});
+io.nl();
+}
+fn prefix(&self, initial: T, accumulator: fn(T, T) -> T) -> impl Iterator<Item = T> {
+(*self).clone().into_iter().prefix(initial, accumulator)
+}
+}
 fn is_skip_char(&b: &u8) -> bool {
     b == b' ' || b == b'\n' || b == b'\r' || b == b'\t' || b == b','
 }
