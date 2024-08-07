@@ -1,0 +1,15 @@
+alias b := build
+alias r := run
+alias t := test
+
+CFLAGS := "-Wall -Wpedantic -Wextra"
+CPPVER := "20"
+OPTLVL := "2"
+GCCVER := "14"
+
+build TASK:
+	g++-{{GCCVER}} -std=c++{{CPPVER}} {{TASK}}.cpp -O{{OPTLVL}} -o {{TASK}}.out {{CFLAGS}}
+run TASK: (build TASK)
+    ./{{TASK}}.out
+test BIN: (build BIN)
+	@fish -c "cpp_eval_test ./{{BIN}}.out {{BIN}}"
