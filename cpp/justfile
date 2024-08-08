@@ -1,6 +1,7 @@
 alias b := build
 alias r := run
 alias t := test
+alias c := clean
 
 CFLAGS := "-Wall -Wpedantic -Wextra"
 CPPVER := "20"
@@ -13,3 +14,5 @@ run TASK: (build TASK)
     ./{{TASK}}.out
 test BIN: (build BIN)
 	@fish -c "cpp_eval_test ./{{BIN}}.out {{BIN}}"
+clean:
+	rm *.out
