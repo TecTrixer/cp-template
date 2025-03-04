@@ -1,13 +1,10 @@
-# Folder where this repo is:
-set CP_REPO (realpath (dirname (status filename)))
-
 # This function adds another subtask to an already established contest
 function cpp_add_task
     if test (count $argv) -lt 1
         echo "You need to specify the task name, e.g. 'cp_cpp_add_task b' will add 'b.cpp'"
     else
         set i $argv[1]
-        cp {$CP_REPO}/temp.cpp ./$i.cpp
+        cp {$CP_REPO}/cpp/temp.cpp ./$i.cpp
     end
 end
 
@@ -29,7 +26,7 @@ function cpp_new
     if test (count $argv) -ge 1
         mkdir $argv[1]
         cd $argv[1]
-        cp {$CP_REPO}/{compile_flags.txt,.ignore,justfile} .
+        cp {$CP_REPO}/cpp/{compile_flags.txt,.ignore,justfile} .
     else
         echo "Usage: [DIRNAME] [FROM] [TO], where [FROM] and [TO] are optional"
     end

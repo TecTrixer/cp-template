@@ -5,7 +5,7 @@ abbr j just
 set CP_REPO (realpath (dirname (status filename)))
 
 # Include cpp config
-# source {$CP_REPO}/cpp/config.fish
+source {$CP_REPO}/cpp/config.fish
 
 
 # This function adds another subtask to an already established contest
